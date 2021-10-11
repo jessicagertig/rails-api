@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  # get '/articles', to: 'aticles#index'
+  resources :articles, only: [:index] #creates all crud routes at once limited by only
 end
