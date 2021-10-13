@@ -13,19 +13,30 @@ RSpec.describe ArticlesController do
       get '/articles'
       # body = JSON.parse(response.body).deep_symbolize_keys --> this logic is extracted into a helper which allows usage of json_data in expect(json_data) instead of the defined body AND the data: key is removed
       # pp body ---> this code used to see body in more detail to detect differences
-      expect(json_data).to eq(
-        [
-          {
-            id: article.id.to_s,
-            type: 'articles',
-            attributes: {
-              title: article.title,
-              content: article.content,
-              slug: article.slug
-            }
-          }
-        ]
-      )
+      expect(json_data.length).to eq(1)
+      expected = json_data.first
+      aggregate_failures do
+        expect(expected[:id]).to eq(article.id.to_s)
+        expect(expected[:type]).to eq('articles')
+        expect(expected[:attributes]).to eq(
+          title: article.title,
+          content: article.content,
+          slug: article.slug
+        )
+      end
+      # expect(json_data).to eq(
+      #   [
+      #     {
+      #       id: article.id.to_s,
+      #       type: 'articles',
+      #       attributes: {
+      #         title: article.title,
+      #         content: article.content,
+      #         slug: article.slug
+      #       }
+      #     }
+      #   ]
+      # )
     end
   end
 end
