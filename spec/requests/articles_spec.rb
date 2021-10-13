@@ -11,10 +11,10 @@ RSpec.describe ArticlesController do
     it 'returns a proper JSON response' do
       article = create :article
       get '/articles'
-      body = JSON.parse(response.body).deep_symbolize_keys
-      pp body
-      expect(body).to eq(
-        data: [
+      # body = JSON.parse(response.body).deep_symbolize_keys --> this logic is extracted into a helper which allows usage of json_data in expect(json_data) instead of the defined body AND the data: key is removed
+      # pp body ---> this code used to see body in more detail to detect differences
+      expect(json_data).to eq(
+        [
           {
             id: article.id.to_s,
             type: 'articles',
